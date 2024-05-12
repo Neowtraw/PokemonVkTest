@@ -64,8 +64,8 @@ private fun PokemonInfoContentPreview() {
             info = UiPokemonInfo(
                 number = "1",
                 name = "Ditto",
-                height = 100,
-                weight = 1343,
+                height = "100 m",
+                weight = "11 kg",
                 stats = persistentListOf(UiStat("hp", 100, R.drawable.ic_hp)),
                 image = "",
             ),

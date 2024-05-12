@@ -12,8 +12,8 @@ class UiPokemonInfoMapper @Inject constructor(
         UiPokemonInfo(
             number = model.number,
             name = model.name,
-            height = model.height,
-            weight = model.weight,
+            height = "${model.height / 10f} m",
+            weight = "${model.weight / 10f} kg",
             stats = model.stats.map(statMapper::toUiStat).toImmutableList(),
             image = model.image,
         )

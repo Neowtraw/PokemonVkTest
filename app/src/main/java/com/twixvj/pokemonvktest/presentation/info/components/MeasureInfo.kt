@@ -54,10 +54,8 @@ fun MeasureInfo(
                 )
                 Spacer(Modifier.width(4.dp))
 
-                val weightInKg = info.weight / 10f
-
                 Text(
-                    text = "$weightInKg kg",
+                    text = info.weight,
                     color = MaterialTheme.colorScheme.onSecondary,
                     style = MaterialTheme.typography.bodyLarge,
                     fontWeight = FontWeight.Bold,
@@ -91,10 +89,8 @@ fun MeasureInfo(
                 )
                 Spacer(Modifier.width(4.dp))
 
-                val heightInMeter = info.height / 10f
-
                 Text(
-                    text = "$heightInMeter m",
+                    text = info.height,
                     color = MaterialTheme.colorScheme.onSecondary,
                     style = MaterialTheme.typography.bodyLarge,
                     fontWeight = FontWeight.Bold,
@@ -120,8 +116,8 @@ private fun MeasureInfoPreview() {
             info = UiPokemonInfo(
                 number = "1",
                 name = "Ditto",
-                height = 100,
-                weight = 1343,
+                height = "10 m",
+                weight = "11 kg",
                 stats = persistentListOf(UiStat("hp", 100, R.drawable.ic_hp)),
                 image = "",
             ),
