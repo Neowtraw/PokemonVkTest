@@ -3,6 +3,8 @@ package com.twixvj.pokemonvktest.presentation.info
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.twixvj.pokemonvktest.domain.use_cases.GetPokemonInfoUseCase
+import com.twixvj.pokemonvktest.presentation.mappers.UiPokemonInfoMapper
+import com.twixvj.pokemonvktest.presentation.mappers.UiStatMapper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -13,12 +15,25 @@ import javax.inject.Inject
 @HiltViewModel
 class PokemonInfoViewModel @Inject constructor(
     private val getPokemonInfoUseCase: GetPokemonInfoUseCase,
+    private val pokemonInfoMapper: UiPokemonInfoMapper,
 ) : ViewModel() {
     private val _viewState: MutableStateFlow<PokemonInfoViewState> =
         MutableStateFlow(PokemonInfoViewState.Loading)
     val viewState = _viewState.asStateFlow()
 
     private var state = PokemonInfoState()
+
+    fun submitAction(action: PokemonInfoAction) {
+        state = applyAction(action, state)
+
+        _viewState.update { changeViewState(state) }
+
+        when (action) {
+            is PokemonInfoAction.Init -> submitSideEffect(PokemonInfoSideEffect.LoadPokemonInfo)
+            is PokemonInfoAction.LoadError,
+            is PokemonInfoAction.PokemonInfoLoaded -> Unit
+        }
+    }
 
     private fun applyAction(
         action: PokemonInfoAction,
@@ -40,18 +55,6 @@ class PokemonInfoViewModel @Inject constructor(
         }
     }
 
-    fun submitAction(action: PokemonInfoAction) {
-        state = applyAction(action, state)
-
-        _viewState.update { changeViewState(state) }
-
-        when (action) {
-            is PokemonInfoAction.Init -> submitSideEffect(PokemonInfoSideEffect.LoadPokemonInfo)
-            is PokemonInfoAction.LoadError,
-            is PokemonInfoAction.PokemonInfoLoaded -> Unit
-        }
-    }
-
     private fun changeViewState(state: PokemonInfoState): PokemonInfoViewState =
         when {
             state.isLoading -> PokemonInfoViewState.Loading
@@ -63,7 +66,7 @@ class PokemonInfoViewModel @Inject constructor(
         viewModelScope.launch {
             getPokemonInfoUseCase(name = name)
                 .onSuccess { result ->
-                    submitAction(PokemonInfoAction.PokemonInfoLoaded(result))
+                    submitAction(PokemonInfoAction.PokemonInfoLoaded(pokemonInfoMapper.toUiPokemonInfo(result)))
                 }
                 .onFailure { throwable ->
                     submitAction(PokemonInfoAction.LoadError(throwable.message ?: FATAL))

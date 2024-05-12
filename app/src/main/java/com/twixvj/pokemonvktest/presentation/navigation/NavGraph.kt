@@ -13,7 +13,7 @@ import com.twixvj.pokemonvktest.presentation.info.PokemonInfoScreen
 import com.twixvj.pokemonvktest.presentation.navigation.NavRoute.AllPokemonsScreenRoute.ARG_NAME
 
 @Composable
-fun setupNavGraph(
+fun NavGraph(
     state: NavState,
     startDestination: String,
     padding: PaddingValues,

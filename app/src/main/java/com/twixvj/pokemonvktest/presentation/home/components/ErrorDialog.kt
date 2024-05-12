@@ -21,9 +21,12 @@ import com.twixvj.pokemonvktest.R
 import com.twixvj.pokemonvktest.presentation.theme.PokemonVkTestTheme
 
 @Composable
-fun ErrorDialog(text: String) {
+fun ErrorDialog(
+    modifier: Modifier = Modifier,
+    text: String,
+) {
     Column(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxSize()
             .padding(10.dp),
         verticalArrangement = Arrangement.Center,

@@ -1,9 +1,12 @@
 package com.twixvj.pokemonvktest.presentation.home
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.twixvj.pokemonvktest.domain.use_cases.GetAllPokemonsUseCase
+import com.twixvj.pokemonvktest.presentation.mappers.UiPokemonMapper
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
@@ -13,6 +16,7 @@ import javax.inject.Inject
 @HiltViewModel
 class AllPokemonsViewModel @Inject constructor(
     private val getAllPokemonsUseCase: GetAllPokemonsUseCase,
+    private val pokemonMapper: UiPokemonMapper,
 ) : ViewModel() {
     private val _viewState: MutableStateFlow<AllPokemonsViewState> =
         MutableStateFlow(AllPokemonsViewState.Loading)
@@ -26,7 +30,7 @@ class AllPokemonsViewModel @Inject constructor(
             is AllPokemonsAction.LoadError -> state.copy(isLoading = false, error = action.error)
             is AllPokemonsAction.PokemonsLoaded -> state.copy(
                 isLoading = false,
-                pokemons = action.result,
+                pokemons = action.result.toImmutableList(),
             )
         }
 
@@ -59,9 +63,14 @@ class AllPokemonsViewModel @Inject constructor(
         viewModelScope.launch {
             getAllPokemonsUseCase()
                 .onSuccess { result ->
-                    submitAction(AllPokemonsAction.PokemonsLoaded(result))
+                    submitAction(
+                        AllPokemonsAction.PokemonsLoaded(
+                            result.map(pokemonMapper::toUiPokemon).toImmutableList(),
+                        )
+                    )
                 }
                 .onFailure { throwable ->
+                    Log.e(FATAL, throwable.message.toString())
                     submitAction(AllPokemonsAction.LoadError(throwable.message ?: FATAL))
                 }
         }

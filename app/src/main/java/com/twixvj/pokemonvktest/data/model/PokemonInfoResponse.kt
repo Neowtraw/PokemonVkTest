@@ -1,6 +1,7 @@
 package com.twixvj.pokemonvktest.data.model
 
 import com.squareup.moshi.Json
+import com.twixvj.pokemonvktest.core.PokemonFormatters
 
 data class PokemonInfoResponse(
     @Json(name = "id") val id: Long,
@@ -9,11 +10,7 @@ data class PokemonInfoResponse(
     @Json(name = "height") val height: Long,
     @Json(name = "stats") val stats: List<StatsResponse>,
 ) {
-    val idString get() = when(id.toString().length) {
-        1 -> "#00$id"
-        2 -> "#0$id"
-        else -> "#$id"
-    }
+    val idString: String get() = PokemonFormatters.idFormatter.format(id)
 
     val image: String =
         "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/$id.png"

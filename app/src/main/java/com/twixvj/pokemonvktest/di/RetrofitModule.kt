@@ -22,10 +22,9 @@ internal object RetrofitModule {
     private const val POKEMON_URL = "https://pokeapi.co/api/v2/"
 
     @[Provides Singleton]
-    fun provideLoggingHttpClient(@ApplicationContext context: Context): OkHttpClient {
+    fun provideLoggingHttpClient(): OkHttpClient {
         val loggingInterceptor = HttpLoggingInterceptor().apply {
-            // if (BuildConfig.DEBUG) HttpLoggingInterceptor.Level.BODY else HttpLoggingInterceptor.Level.BASIC
-            level = HttpLoggingInterceptor.Level.BODY
+            level = HttpLoggingInterceptor.Level.BASIC
         }
 
         return OkHttpClient.Builder()

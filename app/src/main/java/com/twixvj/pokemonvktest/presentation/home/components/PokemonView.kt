@@ -20,13 +20,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
-import com.twixvj.pokemonvktest.domain.model.Pokemon
+import com.twixvj.pokemonvktest.presentation.models.UiPokemon
 import com.twixvj.pokemonvktest.presentation.theme.PokemonVkTestTheme
 
 @Composable
 fun PokemonView(
     modifier: Modifier = Modifier,
-    pokemon: Pokemon,
+    pokemon: UiPokemon,
     onPokemonSelected: () -> Unit,
 ) {
     Row(
@@ -47,11 +47,10 @@ fun PokemonView(
         Spacer(modifier = Modifier.width(10.dp))
 
         Text(
-            text = pokemon.name.replaceFirstChar { it.uppercase() },
-            style = MaterialTheme.typography.titleLarge.copy(
-                fontWeight = FontWeight.Bold
-            ),
-            modifier = Modifier.alpha(.8f)
+            text = pokemon.name.replaceFirstChar(Char::uppercase),
+            style = MaterialTheme.typography.titleLarge,
+            modifier = Modifier.alpha(.8f),
+            fontWeight = FontWeight.Bold,
         )
 
         Spacer(Modifier.weight(1f))
@@ -69,7 +68,7 @@ fun PokemonView(
 private fun PokemonViewPreview() {
     PokemonVkTestTheme {
         PokemonView(
-            pokemon = Pokemon("Tiddo", "123", "123"),
+            pokemon = UiPokemon("Tiddo", "123", "123"),
             onPokemonSelected = {},
         )
     }

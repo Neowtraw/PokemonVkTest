@@ -17,17 +17,20 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
-import com.twixvj.pokemonvktest.domain.model.Stat
+import com.twixvj.pokemonvktest.presentation.models.UiStat
 
 @Composable
-fun StatView(stat: Stat) {
+fun StatView(
+    modifier: Modifier = Modifier,
+    stat: UiStat,
+) {
     Row(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = modifier.fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Image(
             modifier = Modifier.size(30.dp),
-            painter = painterResource(id = stat.formattedIcon),
+            painter = painterResource(id = stat.icon),
             contentDescription = null,
         )
 
@@ -36,7 +39,7 @@ fun StatView(stat: Stat) {
         Text(
             text = buildAnnotatedString {
                 withStyle(SpanStyle(fontWeight = FontWeight.SemiBold)) {
-                    append("${stat.formattedName}: ")
+                    append("${stat.name}: ")
                 }
                 append(stat.value.toString())
             },

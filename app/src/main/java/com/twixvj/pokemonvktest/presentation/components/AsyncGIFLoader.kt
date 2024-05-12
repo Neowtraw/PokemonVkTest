@@ -1,6 +1,7 @@
 package com.twixvj.pokemonvktest.presentation.components
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import coil.compose.AsyncImage
@@ -12,10 +13,13 @@ fun AsyncGIFLoader(
     modifier: Modifier = Modifier,
     url: String,
 ) {
-    val imageRequest = ImageRequest.Builder(LocalContext.current)
-        .data(url)
-        .decoderFactory(GifDecoder.Factory())
-        .build()
+    val context = LocalContext.current
+    val imageRequest = remember {
+        ImageRequest.Builder(context)
+            .data(url)
+            .decoderFactory(GifDecoder.Factory())
+            .build()
+    }
 
     AsyncImage(
         modifier = modifier,

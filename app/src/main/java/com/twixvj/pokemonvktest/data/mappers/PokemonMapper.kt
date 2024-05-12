@@ -15,19 +15,4 @@ class PokemonMapper @Inject constructor() {
             image = model.imageUrl,
             number = model.numberString,
         )
-
-    fun toPokemonInfo(model: PokemonInfoResponse): PokemonInfo =
-        PokemonInfo(
-            number = model.idString,
-            name = model.name,
-            height = model.height,
-            weight = model.weight,
-            stats = model.stats.map(::toStat),
-            image = model.image,
-        )
-
-    private fun toStat(model: StatsResponse): Stat = Stat(
-        name = model.stat.name,
-        value = model.value,
-    )
 }

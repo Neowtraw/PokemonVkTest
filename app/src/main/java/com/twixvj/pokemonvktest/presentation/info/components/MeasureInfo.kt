@@ -1,7 +1,6 @@
 package com.twixvj.pokemonvktest.presentation.info.components
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -15,6 +14,7 @@ import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.VerticalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -24,14 +24,15 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.twixvj.pokemonvktest.R
-import com.twixvj.pokemonvktest.domain.model.PokemonInfo
-import com.twixvj.pokemonvktest.domain.model.Stat
+import com.twixvj.pokemonvktest.presentation.models.UiPokemonInfo
+import com.twixvj.pokemonvktest.presentation.models.UiStat
 import com.twixvj.pokemonvktest.presentation.theme.PokemonVkTestTheme
+import kotlinx.collections.immutable.persistentListOf
 
 @Composable
 fun MeasureInfo(
     modifier: Modifier = Modifier,
-    info: PokemonInfo,
+    info: UiPokemonInfo,
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
@@ -58,9 +59,8 @@ fun MeasureInfo(
                 Text(
                     text = "$weightInKg kg",
                     color = MaterialTheme.colorScheme.onSecondary,
-                    style = MaterialTheme.typography.bodyLarge.copy(
-                        fontWeight = FontWeight.Bold,
-                    ),
+                    style = MaterialTheme.typography.bodyLarge,
+                    fontWeight = FontWeight.Bold,
                 )
             }
 
@@ -73,11 +73,10 @@ fun MeasureInfo(
             )
         }
 
-        Box(
-            modifier = Modifier
-                .width(1.dp)
-                .height(30.dp)
-                .background(color = MaterialTheme.colorScheme.outline)
+        VerticalDivider(
+            modifier = Modifier.height(30.dp),
+            thickness = 1.dp,
+            color = MaterialTheme.colorScheme.outline,
         )
 
         Column(
@@ -97,9 +96,8 @@ fun MeasureInfo(
                 Text(
                     text = "$heightInMeter m",
                     color = MaterialTheme.colorScheme.onSecondary,
-                    style = MaterialTheme.typography.bodyLarge.copy(
-                        fontWeight = FontWeight.Bold,
-                    ),
+                    style = MaterialTheme.typography.bodyLarge,
+                    fontWeight = FontWeight.Bold,
                 )
             }
 
@@ -119,12 +117,12 @@ fun MeasureInfo(
 private fun MeasureInfoPreview() {
     PokemonVkTestTheme {
         MeasureInfo(
-            info = PokemonInfo(
+            info = UiPokemonInfo(
                 number = "1",
                 name = "Ditto",
                 height = 100,
                 weight = 1343,
-                stats = listOf(Stat("hp", 100)),
+                stats = persistentListOf(UiStat("hp", 100, R.drawable.ic_hp)),
                 image = "",
             ),
         )

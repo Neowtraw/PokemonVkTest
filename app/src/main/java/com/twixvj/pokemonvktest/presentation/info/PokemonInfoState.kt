@@ -1,10 +1,10 @@
 package com.twixvj.pokemonvktest.presentation.info
 
-import com.twixvj.pokemonvktest.domain.model.PokemonInfo
+import com.twixvj.pokemonvktest.presentation.models.UiPokemonInfo
 
 data class PokemonInfoState(
     val name: String = "",
     val isLoading: Boolean = false,
     val error: String? = null,
-    val info: PokemonInfo? = null,
+    val info: UiPokemonInfo? = null,
 )

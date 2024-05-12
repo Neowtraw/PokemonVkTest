@@ -1,15 +1,19 @@
 package com.twixvj.pokemonvktest.presentation.info.components
 
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
-import com.twixvj.pokemonvktest.domain.model.Stat
+import androidx.compose.ui.Modifier
+import com.twixvj.pokemonvktest.presentation.models.UiStat
+import kotlinx.collections.immutable.ImmutableList
 
 @Composable
-fun StatsList(stats: List<Stat>) {
-    LazyColumn {
-        items(stats, key = Stat::name) { stat ->
-            StatView(stat)
+fun StatsList(
+    modifier: Modifier = Modifier,
+    stats: ImmutableList<UiStat>,
+) {
+    LazyColumn(modifier = modifier) {
+        items(stats.size, key = {stats[it].name}) { index ->
+            StatView(stat = stats[index])
         }
     }
 }
